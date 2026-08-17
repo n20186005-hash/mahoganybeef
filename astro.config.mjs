@@ -1,13 +1,13 @@
-import { defineConfig } from 'astro/config';
-import sitemap from '@astrojs/sitemap';
-import tailwindcss from '@tailwindcss/vite';
+// Ridge Market Ledger: one optional site URL governs all absolute SEO output.
+import { defineConfig } from "astro/config";
+import sitemap from "@astrojs/sitemap";
+import tailwindcss from "@tailwindcss/vite";
 
-// Production origin: set it here once (for example, your real registered domain).
-// Keep empty until a domain is ready; the project still builds without it.
-const site = '';
+const configuredSite = process.env.PUBLIC_SITE_URL?.trim();
+const site = configuredSite ? new URL(configuredSite) : undefined;
 
 export default defineConfig({
-  ...(site ? { site } : {}),
+  site,
   integrations: site ? [sitemap()] : [],
   vite: {
     plugins: [tailwindcss()],

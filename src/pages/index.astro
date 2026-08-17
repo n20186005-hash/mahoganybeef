@@ -1,0 +1,313 @@
+---
+// Ridge Market Ledger: Filipino one-page route through Tagaytay's market, food, and practical planning.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { faq, mapUrl, placeAddress, placeName, practicalFacts, sources } from "../content";
+
+const title = `${placeName} | Gabay sa Tagaytay`;
+const description = "Isang independenteng gabay sa Mahogany Beef Market & Bulalohan sa Tagaytay: lokasyon, bulalo, parking, biyahe, bayarin at mga puwedeng isabay na lugar.";
+const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
+
+const localBusinessSchema = {
+  "@context": "https://schema.org",
+  "@type": ["TouristAttraction", "LocalBusiness"],
+  name: placeName,
+  description,
+  ...(canonicalUrl ? { url: canonicalUrl } : {}),
+  sameAs: [mapUrl],
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "10 Mahogany Ave",
+    addressLocality: "Tagaytay City",
+    addressRegion: "Cavite",
+    addressCountry: "PH",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 14.1040923,
+    longitude: 120.9312525,
+  },
+  openingHours: "Kumpirmahin ang kasalukuyang oras sa live na Google Maps listing bago bumisita.",
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: 4.4,
+    reviewCount: 13870,
+    bestRating: 5,
+  },
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faq.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer },
+  })),
+};
+---
+
+<BaseLayout title={title} description={description}>
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(localBusinessSchema)} />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(faqSchema)} />
+
+  <a class="skip-link" href="#main">Lumaktaw sa nilalaman</a>
+  <header class="site-header" data-header="">
+    <a class="brand" href="#simula" aria-label="Bumalik sa simula">
+      <img src="/manus-storage/mahogany-logo_c1724b9f.png" width="72" height="72" alt="Simbolo ng mangkok, singaw at dahon" />
+      <span class="brand__words"><strong>MAHOGANY</strong><small>TAGAYTAY FIELD GUIDE</small></span>
+    </a>
+    <nav class="desktop-nav" aria-label="Pangunahing nabigasyon">
+      <a href="#tikman">Tikman</a>
+      <a href="#plano">Plano</a>
+      <a href="#mapa">Mapa</a>
+      <a href="#tanong">FAQ</a>
+    </nav>
+    <a class="header-map-link" href={mapUrl} target="_blank" rel="noreferrer">Buksan ang mapa <span aria-hidden="true">↗</span></a>
+  </header>
+
+  <main id="main">
+    <section id="simula" class="hero" aria-labelledby="hero-title">
+      <div class="hero__photo" role="img" aria-label="Totoong litrato ng loob ng Mahogany Market"></div>
+      <div class="hero__veil"></div>
+      <div class="hero__grit" aria-hidden="true"></div>
+      <div class="hero__content">
+        <p class="eyebrow on-dark"><span>01</span> ISANG TUNAY NA TAGAYTAY STOP</p>
+        <h1 id="hero-title">Punta para sa <em>bulalo.</em><br />Uwi na may kuwento.</h1>
+        <p class="hero__lead">Sa Mahogany Avenue, ang pamilihang baka at mga kainan ng bulalo ay isang praktikal na food stop—at isang maliit na sulyap sa araw-araw na Tagaytay.</p>
+        <div class="hero__actions">
+          <a class="button button--cream" href="#plano">Planuhin ang pagbisita <span aria-hidden="true">↓</span></a>
+          <a class="text-link text-link--light" href={mapUrl} target="_blank" rel="noreferrer">Tingnan sa live na mapa <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+      <aside class="hero__ticket" aria-label="Mabilis na tala tungkol sa lugar">
+        <img src="/manus-storage/mahogany-steam-motif_1b57805f.png" alt="Dekorasyong singaw at dahon" />
+        <p class="ticket__label">MARKET NOTE</p>
+        <p class="ticket__number">4.4<span>/5</span></p>
+        <p class="ticket__copy">Rating snapshot mula sa Google Maps, batay sa 13,870 review. I-check ang live listing bago bumiyahe.</p>
+      </aside>
+      <p class="hero__coordinates">14.1040923° N &nbsp; · &nbsp; 120.9312525° E</p>
+    </section>
+
+    <section class="quickfacts" aria-label="Mabilis na impormasyon">
+      <div class="section-number">01</div>
+      <div class="quickfacts__intro">
+        <p class="eyebrow">MABILIS NA TALA</p>
+        <h2>Hindi ito fine dining.<br /><em>Mas totoo rito.</em></h2>
+      </div>
+      <div class="quickfacts__grid">
+        {practicalFacts.map((fact) => (
+          <div class="fact">
+            <p>{fact.label}</p>
+            <strong>{fact.value}</strong>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section id="tikman" class="taste-section" aria-labelledby="taste-title">
+      <div class="taste-section__image frame-photo" role="img" aria-label="Totoong litrato ng bulalo sa Mahogany Market"></div>
+      <div class="taste-section__body">
+        <p class="eyebrow"><span>02</span> ANG KAINAN</p>
+        <h2 id="taste-title">Mainit na sabaw.<br />Walang <em>arte.</em></h2>
+        <p>Pinakakilala ang Mahogany sa bulalo—isang malinaw at matagal kumulong na sabaw na may baka. Nasa loob ka ng pamilihan, kaya ang pinupuntahan dito ay ang diretso at buhay na karanasan, hindi ang restaurant polish.</p>
+        <p>May mga puwestong magkakalapit at maaaring magkakaiba ang set, bahagi at presyo. Magtanong muna, tingnan ang menu, at pumili ayon sa laki ng grupo.</p>
+        <div class="callout">
+          <img src="/manus-storage/mahogany-ingredient-mark_c3389b5a.png" alt="Dekorasyong sangkap" />
+          <p><strong>Praktikal na tip.</strong> Kumportable ang sapatos, dahil may lakaran sa mga stall. Para sa mas mahinahong takbo, subukan ang weekday o hindi peak na oras.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="market-strip" aria-label="Tanawin sa pamilihan">
+      <div class="market-strip__photo" role="img" aria-label="Totoong litrato ng ani sa Mahogany Market"></div>
+      <div class="market-strip__copy">
+        <p class="eyebrow on-dark">MAY HIGIT PA SA ISANG MANGKOK</p>
+        <p>Maglaan ng oras para sa prutas, ani at iba pang tinda. Ang food stop ay mas maganda kapag tinrato bilang maikling market walk.</p>
+      </div>
+    </section>
+
+    <section id="plano" class="plan-section" aria-labelledby="plan-title">
+      <div class="plan-section__heading">
+        <p class="eyebrow"><span>03</span> PAGDATING AT PAG-ALIS</p>
+        <h2 id="plan-title">Isang maayos na<br /><em>market stop.</em></h2>
+        <p>Gamitin ang mga tala sa ibaba bilang panimulang gabay. Dahil live ang traffic, ruta at singil, ang huling kumpirmasyon ay dapat manggaling sa mapa, driver o attendant sa araw ng biyahe.</p>
+      </div>
+      <div class="plan-section__route-mark"><img src="/manus-storage/mahogany-route-mark_9d95a997.png" alt="Dekorasyong route marker" /></div>
+      <div class="plan-cards">
+        <article class="plan-card">
+          <span>01 / BIYAHE</span>
+          <h3>Taxi, sasakyan o commute</h3>
+          <p>Kung mula sa Maynila, hanapin ang Tagaytay-bound bus na angkop sa iyong origin, saka lumipat sa lokal na sakay o ride-hail patungong Mahogany Avenue. Mula sa Olivarez/rotunda, magtanong ng jeep na dadaan sa Mahogany at sabihin ang “Mahogany Market.”</p>
+          <a href={mapUrl} target="_blank" rel="noreferrer">Live na direksiyon <span aria-hidden="true">↗</span></a>
+        </article>
+        <article class="plan-card plan-card--ink">
+          <span>02 / PARKING</span>
+          <h3>Mag-iwan ng allowance</h3>
+          <p>May mga parking space na binabanggit sa mga lokal na gabay malapit sa market. Masikip ang availability sa peak na oras; tanungin agad ang attendant tungkol sa available slot at kasalukuyang singil.</p>
+          <a href={sources.marketGuide} target="_blank" rel="noreferrer">Basahin ang market note <span aria-hidden="true">↗</span></a>
+        </article>
+        <article class="plan-card">
+          <span>03 / GASTOS</span>
+          <h3>Walang published visitor ticket</h3>
+          <p>Walang hiwalay na entrance fee na nakalista para sa mga bisita. Magbudget para sa sariling pagkain, bibilhin at parking; presyo at availability ay maaaring magbago ayon sa stall at araw.</p>
+          <a href={mapUrl} target="_blank" rel="noreferrer">I-check ang listing <span aria-hidden="true">↗</span></a>
+        </article>
+        <article class="plan-card plan-card--green">
+          <span>04 / TAGAL</span>
+          <h3>Huminto nang 45–90 minuto</h3>
+          <p>Ang ganitong oras ay sapat para pumili, kumain at maglakad sa mga stall nang hindi minamadali. Magdagdag ng allowance kung weekend, holiday o may malaking grupo.</p>
+          <a href="#malapit">Piliin ang susunod na stop <span aria-hidden="true">↓</span></a>
+        </article>
+      </div>
+    </section>
+
+    <section id="malapit" class="nearby-section" aria-labelledby="nearby-title">
+      <div class="nearby-section__top">
+        <p class="eyebrow on-dark"><span>04</span> ITULOY ANG ARAW</p>
+        <h2 id="nearby-title">May market stop.<br />May <em>Tagaytay</em> pa.</h2>
+        <p>Itugma ang pagkain sa isa pang tanawin o pahinga. Ang mga lugar sa ibaba ay itinatampok ng City Government of Tagaytay; kumpirmahin ang oras, access at patakaran sa kanilang mga operator bago pumunta.</p>
+      </div>
+      <div class="nearby-grid">
+        <article><span>01</span><h3>Tagaytay Picnic Grove</h3><p>Isang outdoor stop para sa open-air na pahinga at tanawin pagkatapos kumain.</p></article>
+        <article><span>02</span><h3>People’s Park in the Sky</h3><p>Isama para sa highland view at mas mahabang Tagaytay loop.</p></article>
+        <article><span>03</span><h3>Sky Ranch</h3><p>Isang mas masiglang opsyon kung may kasamang pamilya o gusto ng rides.</p></article>
+      </div>
+      <a class="button button--cream" href={sources.tagaytay} target="_blank" rel="noreferrer">Tingnan ang Tagaytay City <span aria-hidden="true">↗</span></a>
+    </section>
+
+    <section id="mapa" class="map-section" aria-labelledby="map-title">
+      <div class="map-section__head">
+        <p class="eyebrow"><span>05</span> HANAPIN ANG SINGAW</p>
+        <h2 id="map-title">Mahogany Avenue,<br /><em>Tagaytay City.</em></h2>
+        <address>{placeAddress}</address>
+        <a class="text-link" href={mapUrl} target="_blank" rel="noreferrer">Buksan ang live na mapa <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="map-frame">
+        <iframe
+          title="Mapa ng Mahogany Beef Market & Bulalohan"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6686.047516901888!2d120.93125250000001!3d14.1040923!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bd7799904e4f29%3A0xcd2b8aeb265104b7!2sMahogany%20Beef%20Market%20%26%20Bulalohan!5e1!3m2!1sfil!2sph!4v1786935002767!5m2!1sfil!2sph"
+          width="600"
+          height="450"
+          style="border:0;"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="strict-origin-when-cross-origin"
+        ></iframe>
+      </div>
+    </section>
+
+    <section id="tanong" class="faq-section" aria-labelledby="faq-title">
+      <div class="faq-section__title">
+        <p class="eyebrow"><span>06</span> BAGO PUMUNTA</p>
+        <h2 id="faq-title">Mga madalas<br /><em>itanong.</em></h2>
+        <p>Mas magandang biyahe ang may malinaw na inaasahan. Para sa oras, traffic, booking at singil, laging unahin ang live na impormasyon.</p>
+      </div>
+      <div class="faq-list">
+        {faq.map((item, index) => (
+          <details class="faq-item">
+            <summary><span>0{index + 1}</span>{item.question}<b aria-hidden="true">+</b></summary>
+            <p>{item.answer}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <section class="source-strip" aria-label="Mga pinagmulan ng impormasyon">
+      <p><strong>Mga sanggunian sa pagpaplano:</strong> <a href={sources.maps} target="_blank" rel="noreferrer">Google Maps place listing</a>, <a href={sources.tagaytay} target="_blank" rel="noreferrer">City Government of Tagaytay</a>, at <a href={sources.marketGuide} target="_blank" rel="noreferrer">local market guide</a>. Ang operational na detalye ay maaaring magbago.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__brand">
+      <img src="/manus-storage/mahogany-logo_c1724b9f.png" width="84" height="84" alt="Simbolo ng Mahogany Market guide" />
+      <div><strong>MAHOGANY</strong><small>TAGAYTAY FIELD GUIDE</small></div>
+    </div>
+    <div class="site-footer__copy">
+      <p>Independenteng, hindi pang-komersiyong gabay para sa bisita. Hindi ito kaakibat ng Mahogany Beef Market & Bulalohan, City Government of Tagaytay, Department of Tourism o alinmang vendor.</p>
+      <p>Ang impormasyon ay inihambing sa pampublikong materyal ng City Government of Tagaytay, live place listing at lokal na guide. Walang bayad o komersiyal na rekomendasyon ang nilalaman nito.</p>
+    </div>
+    <div class="site-footer__legal">
+      <button type="button" data-dialog-open="privacy">Patakaran sa Privacy</button>
+      <button type="button" data-dialog-open="terms">Mga Tuntunin</button>
+      <button type="button" data-dialog-open="cookies">Cookie Settings</button>
+      <p>Mga larawan: pagmamay-ari ng kani-kanilang photographer. Ginagamit sa gabay na may attribution.</p>
+      <p>© 2026 Gabay sa Mahogany Market.</p>
+    </div>
+  </footer>
+
+  <dialog id="privacy" class="legal-dialog" aria-labelledby="privacy-title">
+    <button class="dialog-close" type="button" data-dialog-close="" aria-label="Isara">×</button>
+    <p class="eyebrow">PRIVACY</p><h2 id="privacy-title">Patakaran sa Privacy</h2>
+    <p>Ang site na ito ay minimal ang kinokolektang data. Kung pipiliin mong paganahin ang analytics, maaaring makatanggap ang Google Analytics ng anonymized browsing data tulad ng uri ng browser, mga pahinang binisita at truncated na technical identifiers ayon sa sarili nitong patakaran.</p>
+    <p>Ginagamit ang Google Maps embed para sa lokasyon at direksiyon; ang serbisyong ito ay sakop ng sariling patakaran ng Google. Walang contact form, account, login o CMS sa site na ito.</p>
+    <p>Maaari mong baguhin ang analytics preference anumang oras sa Cookie Settings. Para sa request hinggil sa privacy, huwag magbahagi ng personal na impormasyon sa site na ito.</p>
+  </dialog>
+  <dialog id="terms" class="legal-dialog" aria-labelledby="terms-title">
+    <button class="dialog-close" type="button" data-dialog-close="" aria-label="Isara">×</button>
+    <p class="eyebrow">TERMS</p><h2 id="terms-title">Mga Tuntunin sa Paggamit</h2>
+    <p>Ang site na ito ay isang independenteng reference guide. Hindi ito opisyal na website ng market, ng anumang kainan, o ng anumang ahensya ng gobyerno. Ang impormasyon ay para lamang sa travel planning.</p>
+    <p>Hindi ginagarantiya ang kasalukuyang oras, menu, presyo, parking availability, ruta, kondisyon o serbisyo. Ikaw ang responsable sa pagkumpirma ng mahalagang detalye sa live na map, operator at seller bago bumiyahe o gumastos.</p>
+  </dialog>
+  <dialog id="cookies" class="legal-dialog" aria-labelledby="cookies-title">
+    <button class="dialog-close" type="button" data-dialog-close="" aria-label="Isara">×</button>
+    <p class="eyebrow">COOKIES</p><h2 id="cookies-title">Mga setting ng Cookie</h2>
+    <p>Ang mga kinakailangang local preference ay ginagamit para matandaan ang iyong analytics choice. Naka-off ang analytics hangga’t hindi mo ito pinapagana.</p>
+    <label class="switch-row"><span><strong>Google Analytics</strong><small>Anonymous na paggamit ng site para maintindihan ang traffic.</small></span><input type="checkbox" data-analytics-toggle="" /><i aria-hidden="true"></i></label>
+    <button class="button button--ink" type="button" data-save-cookies="">I-save ang preference</button>
+  </dialog>
+
+  <aside class="cookie-banner" data-cookie-banner="" aria-label="Pahintulot sa cookie" hidden>
+    <p><strong>Privacy, sa iyong paraan.</strong> Gumagamit lang kami ng analytics kapag pinili mo ito. Basahin ang <button type="button" data-dialog-open="cookies">Cookie Settings</button>.</p>
+    <div><button class="button button--ink" type="button" data-accept-analytics="">Payagan ang analytics</button><button class="button button--line" type="button" data-reject-analytics="">Tanggihan</button></div>
+  </aside>
+
+  <script is:inline>
+    const CONSENT_KEY = "mahogany-analytics-consent";
+    const GA_ID = "G-HXM22WWPKP";
+    const banner = document.querySelector("[data-cookie-banner]");
+    const analyticsToggle = document.querySelector("[data-analytics-toggle]");
+
+    function enableAnalytics() {
+      if (document.querySelector("script[data-ga4]")) return;
+      const script = document.createElement("script");
+      script.async = true;
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+      script.dataset.ga4 = "true";
+      document.head.appendChild(script);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){window.dataLayer.push(arguments);}
+      gtag("js", new Date());
+      gtag("config", GA_ID, { anonymize_ip: true });
+    }
+
+    function setConsent(value) {
+      localStorage.setItem(CONSENT_KEY, value);
+      if (value === "granted") enableAnalytics();
+      banner.hidden = true;
+      if (analyticsToggle) analyticsToggle.checked = value === "granted";
+    }
+
+    const saved = localStorage.getItem(CONSENT_KEY);
+    if (!saved) banner.hidden = false;
+    if (saved === "granted") enableAnalytics();
+    if (analyticsToggle) analyticsToggle.checked = saved === "granted";
+
+    document.querySelectorAll("[data-dialog-open]").forEach((button) => {
+      button.addEventListener("click", () => document.getElementById(button.dataset.dialogOpen)?.showModal());
+    });
+    document.querySelectorAll("[data-dialog-close]").forEach((button) => {
+      button.addEventListener("click", () => button.closest("dialog")?.close());
+    });
+    document.querySelector("[data-accept-analytics]")?.addEventListener("click", () => setConsent("granted"));
+    document.querySelector("[data-reject-analytics]")?.addEventListener("click", () => setConsent("denied"));
+    document.querySelector("[data-save-cookies]")?.addEventListener("click", () => {
+      setConsent(analyticsToggle?.checked ? "granted" : "denied");
+      document.getElementById("cookies")?.close();
+    });
+
+    const header = document.querySelector("[data-header]");
+    const setHeaderState = () => header?.classList.toggle("is-scrolled", window.scrollY > 24);
+    setHeaderState();
+    window.addEventListener("scroll", setHeaderState, { passive: true });
+  </script>
+</BaseLayout>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Mahogany Market mark">
+  <rect width="64" height="64" rx="14" fill="#f7f0df"/>
+  <path d="M13 31c7-9 31-9 38 0v15c0 5-5 8-19 8s-19-3-19-8V31Z" fill="#4a2419"/>
+  <path d="M20 32c7-4 17-4 24 0" fill="none" stroke="#f7f0df" stroke-width="3" stroke-linecap="round"/>
+  <path d="M32 27c-4-4 4-6 0-11M40 27c-4-4 4-6 0-11" fill="none" stroke="#7b8953" stroke-width="3" stroke-linecap="round"/>
+  <path d="M17 25c3-8 11-13 18-13-1 8-7 13-18 13Z" fill="#7b8953"/>
+</svg>

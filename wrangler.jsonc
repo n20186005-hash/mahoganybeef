@@ -1,8 +1,13 @@
 {
-  "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "trinoma-visitor-guide",
-  "compatibility_date": "2026-08-14",
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "mahogany-bulalohan-guide",
+  "main": "./src/worker.ts",
+  "compatibility_date": "2026-08-17",
   "assets": {
-    "directory": "./dist"
+    "directory": "./dist",
+    "not_found_handling": "single-page-application"
+  },
+  "observability": {
+    "enabled": true
   }
 }
