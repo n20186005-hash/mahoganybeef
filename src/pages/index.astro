@@ -227,37 +227,16 @@ const faqSchema = {
       <p>Ang impormasyon ay inihambing sa pampublikong materyal ng City Government of Tagaytay, live place listing at lokal na guide. Walang bayad o komersiyal na rekomendasyon ang nilalaman nito.</p>
     </div>
     <div class="site-footer__legal">
-      <button type="button" data-dialog-open="privacy">Patakaran sa Privacy</button>
-      <button type="button" data-dialog-open="terms">Mga Tuntunin</button>
-      <button type="button" data-dialog-open="cookies">Cookie Settings</button>
+      <a href="/privacy/">Patakaran sa Privacy</a>
+      <a href="/terms/">Mga Tuntunin</a>
+      <a href="/cookies/">Cookie Settings</a>
       <p>Mga larawan: pagmamay-ari ng kani-kanilang photographer. Ginagamit sa gabay na may attribution.</p>
       <p>© 2026 Gabay sa Mahogany Market.</p>
     </div>
   </footer>
 
-  <dialog id="privacy" class="legal-dialog" aria-labelledby="privacy-title">
-    <button class="dialog-close" type="button" data-dialog-close="" aria-label="Isara">×</button>
-    <p class="eyebrow">PRIVACY</p><h2 id="privacy-title">Patakaran sa Privacy</h2>
-    <p>Ang site na ito ay minimal ang kinokolektang data. Kung pipiliin mong paganahin ang analytics, maaaring makatanggap ang Google Analytics ng anonymized browsing data tulad ng uri ng browser, mga pahinang binisita at truncated na technical identifiers ayon sa sarili nitong patakaran.</p>
-    <p>Ginagamit ang Google Maps embed para sa lokasyon at direksiyon; ang serbisyong ito ay sakop ng sariling patakaran ng Google. Walang contact form, account, login o CMS sa site na ito.</p>
-    <p>Maaari mong baguhin ang analytics preference anumang oras sa Cookie Settings. Para sa request hinggil sa privacy, huwag magbahagi ng personal na impormasyon sa site na ito.</p>
-  </dialog>
-  <dialog id="terms" class="legal-dialog" aria-labelledby="terms-title">
-    <button class="dialog-close" type="button" data-dialog-close="" aria-label="Isara">×</button>
-    <p class="eyebrow">TERMS</p><h2 id="terms-title">Mga Tuntunin sa Paggamit</h2>
-    <p>Ang site na ito ay isang independenteng reference guide. Hindi ito opisyal na website ng market, ng anumang kainan, o ng anumang ahensya ng gobyerno. Ang impormasyon ay para lamang sa travel planning.</p>
-    <p>Hindi ginagarantiya ang kasalukuyang oras, menu, presyo, parking availability, ruta, kondisyon o serbisyo. Ikaw ang responsable sa pagkumpirma ng mahalagang detalye sa live na map, operator at seller bago bumiyahe o gumastos.</p>
-  </dialog>
-  <dialog id="cookies" class="legal-dialog" aria-labelledby="cookies-title">
-    <button class="dialog-close" type="button" data-dialog-close="" aria-label="Isara">×</button>
-    <p class="eyebrow">COOKIES</p><h2 id="cookies-title">Mga setting ng Cookie</h2>
-    <p>Ang mga kinakailangang local preference ay ginagamit para matandaan ang iyong analytics choice. Naka-off ang analytics hangga’t hindi mo ito pinapagana.</p>
-    <label class="switch-row"><span><strong>Google Analytics</strong><small>Anonymous na paggamit ng site para maintindihan ang traffic.</small></span><input type="checkbox" data-analytics-toggle="" /><i aria-hidden="true"></i></label>
-    <button class="button button--ink" type="button" data-save-cookies="">I-save ang preference</button>
-  </dialog>
-
   <aside class="cookie-banner" data-cookie-banner="" aria-label="Pahintulot sa cookie" hidden>
-    <p><strong>Privacy, sa iyong paraan.</strong> Gumagamit lang kami ng analytics kapag pinili mo ito. Basahin ang <button type="button" data-dialog-open="cookies">Cookie Settings</button>.</p>
+    <p><strong>Privacy, sa iyong paraan.</strong> Gumagamit lang kami ng analytics kapag pinili mo ito. Basahin ang <a href="/cookies/">Cookie Settings</a>.</p>
     <div><button class="button button--ink" type="button" data-accept-analytics="">Payagan ang analytics</button><button class="button button--line" type="button" data-reject-analytics="">Tanggihan</button></div>
   </aside>
 
@@ -265,7 +244,6 @@ const faqSchema = {
     const CONSENT_KEY = "mahogany-analytics-consent";
     const GA_ID = "G-HXM22WWPKP";
     const banner = document.querySelector("[data-cookie-banner]");
-    const analyticsToggle = document.querySelector("[data-analytics-toggle]");
 
     function enableAnalytics() {
       if (document.querySelector("script[data-ga4]")) return;
@@ -284,26 +262,14 @@ const faqSchema = {
       localStorage.setItem(CONSENT_KEY, value);
       if (value === "granted") enableAnalytics();
       banner.hidden = true;
-      if (analyticsToggle) analyticsToggle.checked = value === "granted";
     }
 
     const saved = localStorage.getItem(CONSENT_KEY);
     if (!saved) banner.hidden = false;
     if (saved === "granted") enableAnalytics();
-    if (analyticsToggle) analyticsToggle.checked = saved === "granted";
 
-    document.querySelectorAll("[data-dialog-open]").forEach((button) => {
-      button.addEventListener("click", () => document.getElementById(button.dataset.dialogOpen)?.showModal());
-    });
-    document.querySelectorAll("[data-dialog-close]").forEach((button) => {
-      button.addEventListener("click", () => button.closest("dialog")?.close());
-    });
     document.querySelector("[data-accept-analytics]")?.addEventListener("click", () => setConsent("granted"));
     document.querySelector("[data-reject-analytics]")?.addEventListener("click", () => setConsent("denied"));
-    document.querySelector("[data-save-cookies]")?.addEventListener("click", () => {
-      setConsent(analyticsToggle?.checked ? "granted" : "denied");
-      document.getElementById("cookies")?.close();
-    });
 
     const header = document.querySelector("[data-header]");
     const setHeaderState = () => header?.classList.toggle("is-scrolled", window.scrollY > 24);

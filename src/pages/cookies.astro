@@ -1,0 +1,113 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const title = "Mga Setting ng Cookie | Gabay sa Mahogany Market";
+const description = "Mga setting ng cookie at analytics preference para sa independiyenteng gabay sa Mahogany Beef Market & Bulalohan sa Tagaytay.";
+const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
+---
+
+<BaseLayout title={title} description={description}>
+  <main id="main">
+    <section class="legal-page" aria-labelledby="cookies-title">
+      <a class="back-link" href="/#main">← Bumalik sa gabay</a>
+      <p class="eyebrow"><span>03</span> COOKIES</p>
+      <h1 id="cookies-title">Mga Setting ng Cookie</h1>
+      <p>Ang mga kinakailangang local preference ay ginagamit para matandaan ang iyong analytics choice. Naka-off ang analytics hangga’t hindi mo ito pinapagana.</p>
+      <label class="switch-row"><span><strong>Google Analytics</strong><small>Anonymous na paggamit ng site para maintindihan ang traffic.</small></span><input type="checkbox" data-analytics-toggle="" /><i aria-hidden="true"></i></label>
+      <button class="button button--ink" type="button" data-save-cookies="">I-save ang preference</button>
+    </section>
+  </main>
+
+  <script is:inline>
+    const CONSENT_KEY = "mahogany-analytics-consent";
+    const GA_ID = "G-HXM22WWPKP";
+    const analyticsToggle = document.querySelector("[data-analytics-toggle]");
+
+    function enableAnalytics() {
+      if (document.querySelector("script[data-ga4]")) return;
+      const script = document.createElement("script");
+      script.async = true;
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+      script.dataset.ga4 = "true";
+      document.head.appendChild(script);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){window.dataLayer.push(arguments);}
+      gtag("js", new Date());
+      gtag("config", GA_ID, { anonymize_ip: true });
+    }
+
+    function setConsent(value) {
+      localStorage.setItem(CONSENT_KEY, value);
+      if (value === "granted") enableAnalytics();
+    }
+
+    const saved = localStorage.getItem(CONSENT_KEY);
+    if (saved === "granted") enableAnalytics();
+    if (analyticsToggle) analyticsToggle.checked = saved === "granted";
+
+    document.querySelector("[data-save-cookies]")?.addEventListener("click", () => {
+      setConsent(analyticsToggle?.checked ? "granted" : "denied");
+    });
+  </script>
+</BaseLayout>
+
+<style>
+  .legal-page {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: clamp(6rem, 10vw, 10rem) clamp(1.15rem, 8vw, 8rem);
+    color: var(--ink);
+    background: var(--rice);
+  }
+  .legal-page h1 {
+    margin-bottom: 2.2rem;
+    font-size: clamp(2.6rem, 5vw, 4.8rem);
+  }
+  .legal-page h1 em {
+    color: var(--mahogany);
+    font-style: italic;
+  }
+  .legal-page > p:not(.eyebrow):not(.back-link) {
+    margin-bottom: 1.3rem;
+    font-size: 1.02rem;
+    line-height: 1.7;
+  }
+  .legal-page a {
+    color: var(--mahogany);
+    text-decoration: underline;
+    text-underline-offset: 0.28rem;
+  }
+  .back-link {
+    display: inline-flex;
+    margin-bottom: 2.6rem;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--avocado-dark);
+    text-decoration: none;
+  }
+  .back-link:hover {
+    color: var(--mahogany);
+  }
+  .switch-row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 1.7rem 0;
+    padding: 1rem 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    cursor: pointer;
+  }
+  .switch-row strong, .switch-row small { display: block; }
+  .switch-row small { margin-top: .2rem; font-size: .71rem; }
+  .switch-row input { position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0; }
+  .switch-row i { position: relative; width: 46px; height: 26px; flex: 0 0 auto; border-radius: 99px; background: #b6a993; transition: background .2s var(--ease-out); }
+  .switch-row i::after { position: absolute; top: 4px; left: 4px; width: 18px; height: 18px; border-radius: 50%; background: var(--rice); content: ""; transition: transform .2s var(--ease-out); }
+  .switch-row input:checked + i { background: var(--avocado-dark); }
+  .switch-row input:checked + i::after { transform: translateX(20px); }
+  .switch-row input:focus-visible + i { outline: 2px solid var(--clay); outline-offset: 3px; }
+</style>

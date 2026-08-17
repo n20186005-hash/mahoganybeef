@@ -1,0 +1,60 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const title = "Mga Tuntunin sa Paggamit | Gabay sa Mahogany Market";
+const description = "Mga tuntunin sa paggamit para sa independiyenteng gabay sa Mahogany Beef Market & Bulalohan sa Tagaytay.";
+const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
+---
+
+<BaseLayout title={title} description={description}>
+  <main id="main">
+    <section class="legal-page" aria-labelledby="terms-title">
+      <a class="back-link" href="/#main">← Bumalik sa gabay</a>
+      <p class="eyebrow"><span>02</span> TERMS</p>
+      <h1 id="terms-title">Mga Tuntunin sa Paggamit</h1>
+      <p>Ang site na ito ay isang independenteng reference guide. Hindi ito opisyal na website ng market, ng anumang kainan, o ng anumang ahensya ng gobyerno. Ang impormasyon ay para lamang sa travel planning.</p>
+      <p>Hindi ginagarantiya ang kasalukuyang oras, menu, presyo, parking availability, ruta, kondisyon o serbisyo. Ikaw ang responsable sa pagkumpirma ng mahalagang detalye sa live na map, operator at seller bago bumiyahe o gumastos.</p>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .legal-page {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: clamp(6rem, 10vw, 10rem) clamp(1.15rem, 8vw, 8rem);
+    color: var(--ink);
+    background: var(--rice);
+  }
+  .legal-page h1 {
+    margin-bottom: 2.2rem;
+    font-size: clamp(2.6rem, 5vw, 4.8rem);
+  }
+  .legal-page h1 em {
+    color: var(--mahogany);
+    font-style: italic;
+  }
+  .legal-page > p:not(.eyebrow):not(.back-link) {
+    margin-bottom: 1.3rem;
+    font-size: 1.02rem;
+    line-height: 1.7;
+  }
+  .legal-page a {
+    color: var(--mahogany);
+    text-decoration: underline;
+    text-underline-offset: 0.28rem;
+  }
+  .back-link {
+    display: inline-flex;
+    margin-bottom: 2.6rem;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--avocado-dark);
+    text-decoration: none;
+  }
+  .back-link:hover {
+    color: var(--mahogany);
+  }
+</style>

@@ -1,0 +1,61 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const title = "Patakaran sa Privacy | Gabay sa Mahogany Market";
+const description = "Patakaran sa privacy para sa independiyenteng gabay sa Mahogany Beef Market & Bulalohan sa Tagaytay.";
+const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
+---
+
+<BaseLayout title={title} description={description}>
+  <main id="main">
+    <section class="legal-page" aria-labelledby="privacy-title">
+      <a class="back-link" href="/#main">← Bumalik sa gabay</a>
+      <p class="eyebrow"><span>01</span> PRIVACY</p>
+      <h1 id="privacy-title">Patakaran sa Privacy</h1>
+      <p>Ang site na ito ay minimal ang kinokolektang data. Kung pipiliin mong paganahin ang analytics, maaaring makatanggap ang Google Analytics ng anonymized browsing data tulad ng uri ng browser, mga pahinang binisita at truncated na technical identifiers ayon sa sarili nitong patakaran.</p>
+      <p>Ginagamit ang Google Maps embed para sa lokasyon at direksiyon; ang serbisyong ito ay sakop ng sariling patakaran ng Google. Walang contact form, account, login o CMS sa site na ito.</p>
+      <p>Maaari mong baguhin ang analytics preference anumang oras sa <a href="/cookies/">Cookie Settings</a>. Para sa request hinggil sa privacy, huwag magbahagi ng personal na impormasyon sa site na ito.</p>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .legal-page {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: clamp(6rem, 10vw, 10rem) clamp(1.15rem, 8vw, 8rem);
+    color: var(--ink);
+    background: var(--rice);
+  }
+  .legal-page h1 {
+    margin-bottom: 2.2rem;
+    font-size: clamp(2.6rem, 5vw, 4.8rem);
+  }
+  .legal-page h1 em {
+    color: var(--mahogany);
+    font-style: italic;
+  }
+  .legal-page > p:not(.eyebrow):not(.back-link) {
+    margin-bottom: 1.3rem;
+    font-size: 1.02rem;
+    line-height: 1.7;
+  }
+  .legal-page a {
+    color: var(--mahogany);
+    text-decoration: underline;
+    text-underline-offset: 0.28rem;
+  }
+  .back-link {
+    display: inline-flex;
+    margin-bottom: 2.6rem;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--avocado-dark);
+    text-decoration: none;
+  }
+  .back-link:hover {
+    color: var(--mahogany);
+  }
+</style>
