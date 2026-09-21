@@ -3,17 +3,22 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { faq, mapUrl, placeAddress, placeName, practicalFacts, sources } from "../content";
 
-const title = `${placeName} | Gabay sa Tagaytay`;
-const description = "Isang independenteng gabay sa Mahogany Beef Market & Bulalohan sa Tagaytay: lokasyon, bulalo, parking, biyahe, bayarin at mga puwedeng isabay na lugar.";
+const title = "Mahogany Market Tagaytay: Best Bulalo, Menu, Prices & Guide (2026)";
+const description = "Visiting Mahogany Beef Market & Bulalohan in Tagaytay? See 2026 bulalo prices, stall menu, parking, hours and how to get there—confirm on-site before you go.";
 const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
 
 const localBusinessSchema = {
   "@context": "https://schema.org",
-  "@type": ["TouristAttraction", "LocalBusiness"],
+  "@type": ["TouristAttraction", "LocalBusiness", "Restaurant", "FoodEstablishment"],
+  ...(canonicalUrl ? { "@id": `${canonicalUrl}#place` } : {}),
   name: placeName,
+  alternateName: "Mahogany Market Tagaytay",
   description,
   ...(canonicalUrl ? { url: canonicalUrl } : {}),
-  sameAs: [mapUrl],
+  sameAs: [mapUrl, sources.maps],
+  hasMap: mapUrl,
+  isAccessibleForFree: true,
+  publicAccess: true,
   address: {
     "@type": "PostalAddress",
     streetAddress: "10 Mahogany Ave",
@@ -26,7 +31,8 @@ const localBusinessSchema = {
     latitude: 14.1040923,
     longitude: 120.9312525,
   },
-  openingHours: "Kumpirmahin ang kasalukuyang oras sa live na Google Maps listing bago bumisita.",
+  servesCuisine: "Filipino",
+  priceRange: "₱₱",
   aggregateRating: {
     "@type": "AggregateRating",
     ratingValue: 4.4,
