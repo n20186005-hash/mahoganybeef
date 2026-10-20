@@ -3,7 +3,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 const title = "Mga Setting ng Cookie | Gabay sa Mahogany Market";
 const description = "Mga setting ng cookie at analytics preference para sa independiyenteng gabay sa Mahogany Beef Market & Bulalohan sa Tagaytay.";
-const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
 ---
 
 <BaseLayout title={title} description={description}>
@@ -13,8 +12,9 @@ const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).toStri
       <p class="eyebrow"><span>03</span> COOKIES</p>
       <h1 id="cookies-title">Mga Setting ng Cookie</h1>
       <p>Ang mga kinakailangang local preference ay ginagamit para matandaan ang iyong analytics choice. Naka-off ang analytics hangga’t hindi mo ito pinapagana.</p>
-      <label class="switch-row"><span><strong>Google Analytics</strong><small>Anonymous na paggamit ng site para maintindihan ang traffic.</small></span><input type="checkbox" data-analytics-toggle="" /><i aria-hidden="true"></i></label>
+      <label class="switch-row"><span><strong>Google Analytics</strong><small>Datos ng paggamit ng site ayon sa patakaran ng Google.</small></span><input type="checkbox" data-analytics-toggle="" /><i aria-hidden="true"></i></label>
       <button class="button button--ink" type="button" data-save-cookies="">I-save ang preference</button>
+      <p data-consent-status="" role="status" aria-live="polite"></p>
     </section>
   </main>
 
@@ -24,6 +24,7 @@ const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).toStri
     const analyticsToggle = document.querySelector("[data-analytics-toggle]");
 
     function enableAnalytics() {
+      window[`ga-disable-${GA_ID}`] = false;
       if (document.querySelector("script[data-ga4]")) return;
       const script = document.createElement("script");
       script.async = true;
@@ -37,11 +38,19 @@ const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).toStri
     }
 
     function setConsent(value) {
-      localStorage.setItem(CONSENT_KEY, value);
+      window[`ga-disable-${GA_ID}`] = value !== "granted";
+      let persisted = false;
+      try { localStorage.setItem(CONSENT_KEY, value); persisted = true; } catch {}
+      const status = document.querySelector("[data-consent-status]");
+      if (status) status.textContent = persisted
+        ? "Na-save ang preference."
+        : "Hindi ma-save sa browser. Para sa pahinang ito lamang ang iyong pinili.";
       if (value === "granted") enableAnalytics();
     }
 
-    const saved = localStorage.getItem(CONSENT_KEY);
+    let saved = null;
+    try { saved = localStorage.getItem(CONSENT_KEY); } catch {}
+    window[`ga-disable-${GA_ID}`] = saved !== "granted";
     if (saved === "granted") enableAnalytics();
     if (analyticsToggle) analyticsToggle.checked = saved === "granted";
 

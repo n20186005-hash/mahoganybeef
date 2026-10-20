@@ -1,11 +1,13 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "mahogany-bulalohan-guide",
+  "name": "mahoganybeef",
   "main": "./src/worker.ts",
   "compatibility_date": "2026-08-17",
   "assets": {
     "directory": "./dist",
-    "not_found_handling": "single-page-application"
+    "binding": "ASSETS",
+    "run_worker_first": true,
+    "not_found_handling": "404-page"
   },
   "observability": {
     "enabled": true
