@@ -6,7 +6,7 @@
   "description": "Independent Filipino visitor guide for Mahogany Beef Market & Bulalohan in Tagaytay.",
   "packageManager": "pnpm@10.15.1",
   "engines": {
-    "node": "22.13.0",
+    "node": ">=22.12.0",
     "pnpm": "10.15.1"
   },
   "scripts": {

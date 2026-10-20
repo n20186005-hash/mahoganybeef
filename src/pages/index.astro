@@ -3,13 +3,13 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { faq, mapUrl, placeAddress, placeName, practicalFacts, sources } from "../content";
 
-const title = "Mahogany Market Tagaytay Travel Guide: Best Bulalo, Menu & Prices (2026)";
-const description = "Visiting Mahogany Beef Market & Bulalohan in Tagaytay? See 2026 bulalo prices, stall menu, parking, hours and how to get there—confirm on-site before you go.";
+const title = "Mahogany Market Tagaytay: Lokasyon, Bulalo at Gabay sa Presyo";
+const description = "Gabay sa Mahogany Beef Market & Bulalohan, 10 Mahogany Ave, Tagaytay: lokasyon, oras ng market listing, pagtanong sa menu at presyo, at pagplano ng pagbisita.";
 const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
 
 const localBusinessSchema = {
   "@context": "https://schema.org",
-  "@type": ["TouristAttraction", "LocalBusiness", "Restaurant", "FoodEstablishment"],
+  "@type": "TouristAttraction",
   ...(canonicalUrl ? { "@id": `${canonicalUrl}#place` } : {}),
   name: placeName,
   alternateName: "Mahogany Market Tagaytay",
@@ -17,8 +17,6 @@ const localBusinessSchema = {
   ...(canonicalUrl ? { url: canonicalUrl } : {}),
   sameAs: [mapUrl, sources.maps],
   hasMap: mapUrl,
-  isAccessibleForFree: true,
-  publicAccess: true,
   address: {
     "@type": "PostalAddress",
     streetAddress: "10 Mahogany Ave",
@@ -31,14 +29,7 @@ const localBusinessSchema = {
     latitude: 14.1040923,
     longitude: 120.9312525,
   },
-  servesCuisine: "Filipino",
-  priceRange: "₱₱",
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: 4.4,
-    reviewCount: 13870,
-    bestRating: 5,
-  },
+
 };
 
 const faqSchema = {
@@ -78,7 +69,7 @@ const faqSchema = {
       <div class="hero__grit" aria-hidden="true"></div>
       <div class="hero__content">
         <p class="eyebrow on-dark"><span>01</span> ISANG TUNAY NA TAGAYTAY STOP</p>
-        <h1 id="hero-title">Punta para sa <em>bulalo.</em><br />Uwi na may kuwento.</h1>
+        <h1 id="hero-title">Mahogany Market<br /><em>at bulalo sa Tagaytay.</em></h1>
         <p class="hero__lead">Sa Mahogany Avenue, ang pamilihang baka at mga kainan ng bulalo ay isang praktikal na food stop—at isang maliit na sulyap sa araw-araw na Tagaytay.</p>
         <div class="hero__actions">
           <a class="button button--cream" href="#plano">Planuhin ang pagbisita <span aria-hidden="true">↓</span></a>
@@ -89,7 +80,7 @@ const faqSchema = {
         <img src="/manus-storage/mahogany-steam-motif_1b57805f.png" alt="Dekorasyong singaw at dahon" />
         <p class="ticket__label">MARKET NOTE</p>
         <p class="ticket__number">4.4<span>/5</span></p>
-        <p class="ticket__copy">Rating snapshot mula sa Google Maps, batay sa 13,870 review. I-check ang live listing bago bumiyahe.</p>
+        <p class="ticket__copy">Google Maps: 13,978 review noong 19 Oktubre 2026. Third-party snapshot ito, hindi mga review na kinolekta ng gabay. I-check ang live listing bago bumiyahe.</p>
       </aside>
       <p class="hero__coordinates">14.1040923° N &nbsp; · &nbsp; 120.9312525° E</p>
     </section>
@@ -128,7 +119,7 @@ const faqSchema = {
       <div class="market-strip__photo" role="img" aria-label="Totoong litrato ng ani sa Mahogany Market"></div>
       <div class="market-strip__copy">
         <p class="eyebrow on-dark">MAY HIGIT PA SA ISANG MANGKOK</p>
-        <p>Maglaan ng oras para sa prutas, ani at iba pang tinda. Ang food stop ay mas maganda kapag tinrato bilang maikling market walk.</p>
+        <p>Maglaan ng oras para sa prutas, ani at iba pang tinda. Ang food stop ay mas maganda kapag tinrato bilang maikling market walk.</p><p>Ayon sa City Government CLUP 2023–2032, naitatag ang Mahogany Market noong 1994. Ang dokumentong ito ay kontekstong pangkasaysayan at pagpaplano, hindi garantiya ng kasalukuyang stall o serbisyo.</p>
       </div>
     </section>
 
@@ -154,8 +145,8 @@ const faqSchema = {
         </article>
         <article class="plan-card">
           <span>03 / GASTOS</span>
-          <h3>Walang published visitor ticket</h3>
-          <p>Walang hiwalay na entrance fee na nakalista para sa mga bisita. Magbudget para sa sariling pagkain, bibilhin at parking; presyo at availability ay maaaring magbago ayon sa stall at araw.</p>
+          <h3>Itanong muna ang presyo at bahagi</h3>
+          <p>Hindi beripikado rito ang kasalukuyang admission o iba pang singil. Bago umorder, itanong ang laki ng serving, dami ng karne, kasamang kanin o inumin, at kabuuang presyo. Kumpirmahin din ang parking at ibang serbisyo.</p>
           <a href={mapUrl} target="_blank" rel="noreferrer">I-check ang listing <span aria-hidden="true">↗</span></a>
         </article>
         <article class="plan-card plan-card--green">
@@ -185,7 +176,7 @@ const faqSchema = {
       <div class="map-section__head">
         <p class="eyebrow"><span>05</span> HANAPIN ANG SINGAW</p>
         <h2 id="map-title">Mahogany Avenue,<br /><em>Tagaytay City.</em></h2>
-        <address>{placeAddress}</address>
+        <address>{placeAddress}</address><p>Noong 19 Oktubre 2026, Google Maps ay naglista ng 06:00–17:00 araw-araw para sa market. Hindi ito iisang iskedyul ng bawat bulalohan: maaaring magkaiba ang oras ng mga kainan. Kumpirmahin ang mismong stall bago bumiyahe.</p>
         <a class="text-link" href={mapUrl} target="_blank" rel="noreferrer">Buksan ang live na mapa <span aria-hidden="true">↗</span></a>
       </div>
       <div class="map-frame">
@@ -219,7 +210,7 @@ const faqSchema = {
     </section>
 
     <section class="source-strip" aria-label="Mga pinagmulan ng impormasyon">
-      <p><strong>Mga sanggunian sa pagpaplano:</strong> <a href={sources.maps} target="_blank" rel="noreferrer">Google Maps place listing</a>, <a href={sources.tagaytay} target="_blank" rel="noreferrer">City Government of Tagaytay</a>, at <a href={sources.marketGuide} target="_blank" rel="noreferrer">local market guide</a>. Ang operational na detalye ay maaaring magbago.</p>
+      <p><strong>Mga sanggunian sa pagpaplano:</strong> <a href={sources.maps} target="_blank" rel="noreferrer">Google Maps place listing</a>, <a href={sources.tagaytay} target="_blank" rel="noreferrer">City Government of Tagaytay</a>, <a href={sources.clup} target="_blank" rel="noreferrer">CLUP 2023–2032</a>, <a href={sources.profile} target="_blank" rel="noreferrer">Ecological Profile 2016 (historical)</a>, at <a href={sources.marketGuide} target="_blank" rel="noreferrer">local market guide</a>. Ang operational na detalye ay maaaring magbago.</p>
     </section>
   </main>
 
@@ -252,6 +243,7 @@ const faqSchema = {
     const banner = document.querySelector("[data-cookie-banner]");
 
     function enableAnalytics() {
+      window[`ga-disable-${GA_ID}`] = false;
       if (document.querySelector("script[data-ga4]")) return;
       const script = document.createElement("script");
       script.async = true;
@@ -265,12 +257,20 @@ const faqSchema = {
     }
 
     function setConsent(value) {
-      localStorage.setItem(CONSENT_KEY, value);
+      window[`ga-disable-${GA_ID}`] = value !== "granted";
+      let persisted = false;
+      try { localStorage.setItem(CONSENT_KEY, value); persisted = true; } catch {}
+      const status = document.querySelector("[data-consent-status]");
+      if (status) status.textContent = persisted
+        ? "Na-save ang preference."
+        : "Hindi ma-save sa browser. Para sa pahinang ito lamang ang iyong pinili.";
       if (value === "granted") enableAnalytics();
       banner.hidden = true;
     }
 
-    const saved = localStorage.getItem(CONSENT_KEY);
+    let saved = null;
+    try { saved = localStorage.getItem(CONSENT_KEY); } catch {}
+    window[`ga-disable-${GA_ID}`] = saved !== "granted";
     if (!saved) banner.hidden = false;
     if (saved === "granted") enableAnalytics();
 

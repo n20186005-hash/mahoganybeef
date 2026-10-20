@@ -37,7 +37,7 @@ address { font-style: normal; }
 .brand__words strong, .site-footer__brand strong { font-size: .83rem; font-weight: 800; }
 .brand__words small, .site-footer__brand small { margin-top: .35rem; font-size: .49rem; font-weight: 700; white-space: nowrap; }
 .desktop-nav { display: flex; gap: 1.4rem; font-size: .7rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
-.desktop-nav a { position: relative; padding: .35rem 0; }
+.desktop-nav a { display:inline-flex; align-items:center; min-height:44px; position: relative; padding: .35rem 0; }
 .desktop-nav a::after { position: absolute; right: 0; bottom: 0; left: 0; height: 1px; background: currentColor; content: ""; transform: scaleX(0); transform-origin: right; transition: transform .2s var(--ease-out); }
 .desktop-nav a:hover::after, .desktop-nav a:focus-visible::after { transform: scaleX(1); transform-origin: left; }
 .header-map-link { font-size: .68rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
@@ -168,8 +168,8 @@ h1 em, h2 em { color: #d7e1ae; font-style: italic; }
 .cookie-banner .button--line { color: var(--rice); }
 
 @media (max-width: 940px) {
-  .desktop-nav { display: none; }
-  .site-header { min-height: 76px; }
+  .desktop-nav { display:flex; flex-wrap:wrap; width:100%; order:3; gap:.25rem 1.4rem; }
+  .site-header { position:relative; flex-wrap:wrap; gap:.5rem; min-height:76px; background:var(--mahogany-deep); }
   .hero__content { padding-bottom: 11.5rem; }
   .hero__ticket { bottom: 2.7rem; width: 220px; }
   .hero__ticket img { display: none; }
