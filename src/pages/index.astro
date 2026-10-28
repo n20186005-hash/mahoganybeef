@@ -2,6 +2,7 @@
 // Ridge Market Ledger: Filipino one-page route through Tagaytay's market, food, and practical planning.
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { faq, mapUrl, placeAddress, placeName, practicalFacts, sources } from "../content";
+import { TOPICS, TOPIC_LAYERS, TOPIC_SLUGS } from "../data/topics";
 
 const title = "Mahogany Market Tagaytay: Lokasyon, Bulalo at Gabay sa Presyo";
 const description = "Gabay sa Mahogany Beef Market & Bulalohan, 10 Mahogany Ave, Tagaytay: lokasyon, oras ng market listing, pagtanong sa menu at presyo, at pagplano ng pagbisita.";
@@ -212,6 +213,28 @@ const faqSchema = {
     <section class="source-strip" aria-label="Mga pinagmulan ng impormasyon">
       <p><strong>Mga sanggunian sa pagpaplano:</strong> <a href={sources.maps} target="_blank" rel="noreferrer">Google Maps place listing</a>, <a href={sources.tagaytay} target="_blank" rel="noreferrer">City Government of Tagaytay</a>, <a href={sources.clup} target="_blank" rel="noreferrer">CLUP 2023–2032</a>, <a href={sources.profile} target="_blank" rel="noreferrer">Ecological Profile 2016 (historical)</a>, at <a href={sources.marketGuide} target="_blank" rel="noreferrer">local market guide</a>. Ang operational na detalye ay maaaring magbago.</p>
     </section>
+
+    <section id="gabay" class="guide-hub" aria-labelledby="guide-title">
+      <div class="guide-hub__head">
+        <p class="eyebrow"><span>07</span> MGA GABAY</p>
+        <h2 id="guide-title">Lahat ng gabay<br /><em>sa iisang lugar.</em></h2>
+        <p>36 na focused na pahina para sa bawat tanong—mula sa pagbili ng baka, presyo ng bulalo, at pagpunta mula Maynila, hanggang sa mga planong buong araw at alternatibo kapag maulan.</p>
+      </div>
+      {(["experience", "practical", "nearby", "itinerary"] as const).map((layerKey) => {
+        const layer = TOPIC_LAYERS[layerKey];
+        const items = TOPIC_SLUGS.filter((s) => TOPICS[s].layer === layerKey);
+        return (
+          <div class="guide-group">
+            <h3><span>{layer.eyebrow.split(" / ")[1]}</span>{layer.label}</h3>
+            <ul class="guide-list">
+              {items.map((slug) => (
+                <li><a href={`/${slug}/`}>{TOPICS[slug].h1}</a></li>
+              ))}
+            </ul>
+          </div>
+        );
+      })}
+    </section>
   </main>
 
   <footer class="site-footer">
@@ -282,4 +305,48 @@ const faqSchema = {
     setHeaderState();
     window.addEventListener("scroll", setHeaderState, { passive: true });
   </script>
+
+  <style>
+    .guide-hub {
+      max-width: 1080px; margin: 0 auto; padding: 3rem clamp(1.15rem, 4vw, 5rem) 1rem;
+    }
+    .guide-hub__head { max-width: 720px; margin-bottom: 2.2rem; }
+    .guide-hub__head .eyebrow {
+      color: var(--avocado-dark); font-size: .7rem; font-weight: 800;
+      letter-spacing: .14em; text-transform: uppercase; margin: 0 0 .8rem;
+    }
+    .guide-hub__head .eyebrow span {
+      display: inline-block; margin-right: .5rem; padding: .15rem .5rem;
+      background: var(--mahogany); color: var(--rice); border-radius: 3px;
+    }
+    .guide-hub__head h2 {
+      font-family: var(--serif); font-weight: 400; line-height: 1.05;
+      font-size: clamp(1.9rem, 5vw, 2.8rem); margin: 0 0 1rem; color: var(--mahogany-deep);
+    }
+    .guide-hub__head h2 em { font-style: italic; color: var(--mahogany); }
+    .guide-hub__head p { font-size: 1.02rem; color: var(--ink); max-width: 60ch; }
+    .guide-group { margin: 0 0 2.2rem; }
+    .guide-group h3 {
+      display: flex; align-items: center; gap: .7rem; font-family: var(--serif);
+      font-weight: 400; font-size: 1.3rem; color: var(--mahogany); margin: 0 0 1rem;
+    }
+    .guide-group h3 span {
+      font-family: inherit; font-size: .58rem; font-weight: 800; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--avocado-dark);
+      background: color-mix(in srgb, var(--avocado) 18%, var(--paper));
+      padding: .3rem .5rem; border-radius: 3px;
+    }
+    .guide-list {
+      list-style: none; margin: 0; padding: 0;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: .6rem;
+    }
+    .guide-list a {
+      display: block; padding: .85rem 1rem; border: 1px solid var(--line);
+      border-radius: 8px; background: var(--paper); color: var(--mahogany-deep);
+      font-weight: 700; font-size: .95rem;
+      transition: transform .16s var(--ease-out), border-color .16s var(--ease-out);
+    }
+    .guide-list a:hover { transform: translateY(-2px); border-color: var(--mahogany); }
+    @media (max-width: 600px) { .guide-list { grid-template-columns: 1fr; } }
+  </style>
 </BaseLayout>

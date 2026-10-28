@@ -1,0 +1,284 @@
+---
+// Ridge Market Ledger: body shell for the 36 long-tail subpages.
+import { TOPICS, TOPIC_LAYERS, type TopicContent } from "../data/topics";
+import { mapUrl, placeAddress } from "../content";
+
+interface Props {
+  topic: TopicContent;
+}
+const { topic } = Astro.props;
+const layer = TOPIC_LAYERS[topic.layer];
+const homeUrl = Astro.site ? new URL("/", Astro.site).toString() : "/";
+const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : Astro.url.pathname;
+
+const related = topic.related
+  .map((slug) => TOPICS[slug])
+  .filter(Boolean)
+  .map((t) => ({ slug: t.slug, title: t.h1 }));
+
+const isDraft = topic.sections.length === 0;
+const hasFaq = topic.faq.length > 0;
+---
+
+<a class="skip-link" href="#main">Lumaktaw sa nilalaman</a>
+
+<header class="sub-header" data-header="">
+  <a class="brand" href="/" aria-label="Bumalik sa simula">
+    <img src="/manus-storage/mahogany-logo_c1724b9f.png" width="54" height="54" alt="Simbolo ng mangkok, singaw at dahon" />
+    <span class="brand__words"><strong>MAHOGANY</strong><small>TAGAYTAY FIELD GUIDE</small></span>
+  </a>
+  <nav class="sub-nav" aria-label="Pangunahing nabigasyon">
+    <a href="/#simula">Gabay</a>
+    <a href={mapUrl} target="_blank" rel="noreferrer">Buksan ang mapa <span aria-hidden="true">↗</span></a>
+  </nav>
+</header>
+
+<main id="main">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Tahanan</a>
+    <span aria-hidden="true">/</span>
+    <span>{layer.label}</span>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">{topic.h1}</span>
+  </nav>
+
+  <section class="sub-hero" aria-labelledby="sub-title">
+    <p class="eyebrow on-dark"><span>{layer.eyebrow.split(" / ")[0]}</span> {layer.eyebrow.split(" / ")[1]}</p>
+    <h1 id="sub-title">{topic.h1}</h1>
+    <p class="sub-hero__lead">{topic.lead}</p>
+    <p class="sub-hero__note">Sinuri: {topic.updated} · {placeAddress}</p>
+  </section>
+
+  {isDraft && (
+    <section class="draft-note" aria-label="Paunawa">
+      <p><strong>Draft.</strong> Punan ang <code>sections</code> at <code>faq</code> ng pahinang ito sa <code>src/data/topics.ts</code> bago i-publish. Ang JSON-LD, breadcrumb at internal links ay aktibo na.</p>
+    </section>
+  )}
+
+  {topic.sections.map((section) => (
+    <section class="sub-section" aria-labelledby={section.heading.replace(/\s+/g, "-").toLowerCase()}>
+      <h2 id={section.heading.replace(/\s+/g, "-").toLowerCase()}>{section.heading}</h2>
+      {section.paragraphs?.map((p) => <p>{p}</p>)}
+      {section.bullets && (
+        <ul>
+          {section.bullets.map((b) => <li>{b}</li>)}
+        </ul>
+      )}
+      {section.callout && <p class="callout">{section.callout}</p>}
+    </section>
+  ))}
+
+  {hasFaq && (
+    <section class="sub-faq" aria-labelledby="faq-title">
+      <h2 id="faq-title">Mga madalas itanong</h2>
+      <div class="faq-list">
+        {topic.faq.map((item, index) => (
+          <details class="faq-item">
+            <summary><span>0{index + 1}</span>{item.question}<b aria-hidden="true">+</b></summary>
+            <p>{item.answer}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {related.length > 0 && (
+    <section class="sub-related" aria-labelledby="related-title">
+      <h2 id="related-title">Kaugnay na gabay</h2>
+      <div class="related-grid">
+        {related.map((r) => (
+          <a class="related-card" href={`/${r.slug}/`}>
+            <span>{TOPIC_LAYERS[TOPICS[r.slug].layer].label}</span>
+            <strong>{r.title}</strong>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <section class="source-strip" aria-label="Mga pinagmulan">
+    <p><strong>Mga sanggunian sa pagpaplano:</strong> <a href="https://tagaytay.gov.ph/" target="_blank" rel="noreferrer">City Government of Tagaytay</a>, <a href={mapUrl} target="_blank" rel="noreferrer">Google Maps place listing</a>. Ang operational na detalye ay maaaring magbago—laging i-check ang live na impormasyon.</p>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__brand">
+    <img src="/manus-storage/mahogany-logo_c1724b9f.png" width="84" height="84" alt="Simbolo ng Mahogany Market guide" />
+    <div><strong>MAHOGANY</strong><small>TAGAYTAY FIELD GUIDE</small></div>
+  </div>
+  <div class="site-footer__copy">
+    <p>Independenteng, hindi pang-komersiyong gabay para sa bisita. Hindi ito kaakibat ng Mahogany Beef Market &amp; Bulalohan, City Government of Tagaytay, Department of Tourism o alinmang vendor.</p>
+    <p>Mga larawan: pagmamay-ari ng kani-kanilang photographer. Ginagamit sa gabay na may attribution.</p>
+  </div>
+  <div class="site-footer__legal">
+    <a href="/privacy/">Patakaran sa Privacy</a>
+    <a href="/terms/">Mga Tuntunin</a>
+    <a href="/cookies/">Cookie Settings</a>
+    <p>© 2026 Gabay sa Mahogany Market.</p>
+  </div>
+</footer>
+
+<aside class="cookie-banner" data-cookie-banner="" aria-label="Pahintulot sa cookie" hidden>
+  <p><strong>Privacy, sa iyong paraan.</strong> Gumagamit lang kami ng analytics kapag pinili mo ito. Basahin ang <a href="/cookies/">Cookie Settings</a>.</p>
+  <div><button class="button button--ink" type="button" data-accept-analytics="">Payagan ang analytics</button><button class="button button--line" type="button" data-reject-analytics="">Tanggihan</button></div>
+</aside>
+
+<script is:inline>
+  const CONSENT_KEY = "mahogany-analytics-consent";
+  const GA_ID = "G-HXM22WWPKP";
+  const banner = document.querySelector("[data-cookie-banner]");
+
+  function enableAnalytics() {
+    window[`ga-disable-${GA_ID}`] = false;
+    if (document.querySelector("script[data-ga4]")) return;
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+    script.dataset.ga4 = "true";
+    document.head.appendChild(script);
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){window.dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", GA_ID, { anonymize_ip: true });
+  }
+
+  function setConsent(value) {
+    window[`ga-disable-${GA_ID}`] = value !== "granted";
+    let persisted = false;
+    try { localStorage.setItem(CONSENT_KEY, value); persisted = true; } catch {}
+    if (value === "granted") enableAnalytics();
+    banner.hidden = true;
+  }
+
+  let saved = null;
+  try { saved = localStorage.getItem(CONSENT_KEY); } catch {}
+  window[`ga-disable-${GA_ID}`] = saved !== "granted";
+  if (!saved) banner.hidden = false;
+  if (saved === "granted") enableAnalytics();
+
+  document.querySelector("[data-accept-analytics]")?.addEventListener("click", () => setConsent("granted"));
+  document.querySelector("[data-reject-analytics]")?.addEventListener("click", () => setConsent("denied"));
+
+  const header = document.querySelector("[data-header]");
+  const setHeaderState = () => header?.classList.toggle("is-scrolled", window.scrollY > 24);
+  setHeaderState();
+  window.addEventListener("scroll", setHeaderState, { passive: true });
+</script>
+
+<style>
+  .sub-header {
+    position: fixed; inset: 0 0 auto; z-index: 20;
+    display: flex; align-items: center; justify-content: space-between;
+    min-height: 76px; padding: 12px clamp(1.15rem, 4vw, 5rem);
+    color: var(--rice);
+    background: color-mix(in srgb, var(--mahogany) 92%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--rice) 14%, transparent);
+  }
+  .sub-header.is-scrolled {
+    color: var(--ink);
+    background: color-mix(in srgb, var(--rice) 94%, transparent);
+    border-color: color-mix(in srgb, var(--mahogany) 18%, transparent);
+    backdrop-filter: blur(16px);
+  }
+  .sub-nav { display: flex; gap: 1.2rem; font-size: .68rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+  .sub-nav a { display: inline-flex; align-items: center; min-height: 44px; }
+
+  .breadcrumb {
+    max-width: 880px; margin: 0 auto; padding: 6.4rem clamp(1.15rem, 4vw, 2rem) 0;
+    font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--avocado-dark); display: flex; gap: .5rem; flex-wrap: wrap;
+  }
+  .breadcrumb a { color: inherit; border-bottom: 1px solid transparent; }
+  .breadcrumb a:hover { border-color: currentColor; }
+
+  .sub-hero {
+    max-width: 880px; margin: 0 auto; padding: 1rem clamp(1.15rem, 4vw, 2rem) 2.2rem;
+  }
+  .sub-hero h1 {
+    font-family: var(--serif); font-weight: 400; line-height: 1.04;
+    font-size: clamp(2rem, 6vw, 3.2rem); margin: .6rem 0 0; color: var(--mahogany-deep);
+  }
+  .sub-hero__lead { font-size: 1.05rem; max-width: 60ch; margin-top: .9rem; color: var(--ink); }
+  .sub-hero__note { font-size: .72rem; letter-spacing: .04em; color: var(--avocado-dark); margin-top: 1rem; text-transform: uppercase; }
+
+  .draft-note {
+    max-width: 880px; margin: 0 auto 2rem; padding: 1rem 1.2rem;
+    background: color-mix(in srgb, var(--clay) 14%, var(--rice));
+    border-left: 4px solid var(--clay); border-radius: 4px;
+    font-size: .92rem;
+  }
+  .draft-note code { background: var(--ink); color: var(--rice); padding: .1rem .4rem; border-radius: 3px; font-size: .85em; }
+
+  .sub-section, .sub-faq, .sub-related {
+    max-width: 880px; margin: 0 auto; padding: 1.6rem clamp(1.15rem, 4vw, 2rem);
+  }
+  .sub-section h2, .sub-faq h2, .sub-related h2 {
+    font-family: var(--serif); font-weight: 400; font-size: clamp(1.5rem, 4vw, 2rem);
+    color: var(--mahogany); margin: 0 0 1rem;
+  }
+  .sub-section p { margin: 0 0 1rem; }
+  .sub-section ul { margin: 0 0 1rem; padding-left: 1.2rem; }
+  .sub-section li { margin: .35rem 0; }
+  .callout {
+    background: color-mix(in srgb, var(--avocado) 12%, var(--rice));
+    border-left: 4px solid var(--avocado); padding: .9rem 1.1rem; border-radius: 4px;
+    font-size: .94rem;
+  }
+
+  .faq-list { display: grid; gap: .6rem; }
+  .faq-item {
+    border: 1px solid var(--line); border-radius: 6px; background: var(--paper); padding: .2rem .9rem;
+  }
+  .faq-item summary {
+    display: flex; align-items: center; gap: .7rem; cursor: pointer; padding: .7rem 0;
+    font-weight: 700; list-style: none;
+  }
+  .faq-item summary span { color: var(--avocado-dark); font-size: .8rem; }
+  .faq-item summary b { margin-left: auto; font-size: 1.2rem; }
+  .faq-item p { margin: 0 0 .9rem; }
+
+  .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: .8rem; }
+  .related-card {
+    display: grid; gap: .35rem; padding: 1rem 1.1rem;
+    border: 1px solid var(--line); border-radius: 8px; background: var(--paper);
+    transition: transform .18s var(--ease-out), border-color .18s var(--ease-out);
+  }
+  .related-card:hover { transform: translateY(-2px); border-color: var(--mahogany); }
+  .related-card span { font-size: .6rem; letter-spacing: .12em; text-transform: uppercase; color: var(--avocado-dark); }
+  .related-card strong { font-size: 1.02rem; color: var(--mahogany-deep); }
+
+  .source-strip {
+    max-width: 880px; margin: 1rem auto 0; padding: 1.4rem clamp(1.15rem, 4vw, 2rem);
+    font-size: .82rem; color: var(--avocado-dark); border-top: 1px solid var(--line);
+  }
+  .source-strip a { color: var(--mahogany); border-bottom: 1px solid currentColor; }
+
+  .site-footer {
+    margin-top: 3rem; padding: 2.5rem clamp(1.15rem, 4vw, 5rem);
+    background: var(--mahogany-deep); color: var(--rice);
+    display: grid; gap: 1.6rem; grid-template-columns: auto 1fr auto; align-items: start;
+  }
+  .site-footer__brand { display: inline-flex; align-items: center; gap: .7rem; }
+  .site-footer__brand div { display: grid; line-height: 1; letter-spacing: .08em; }
+  .site-footer__brand strong { font-size: .83rem; font-weight: 800; }
+  .site-footer__brand small { margin-top: .35rem; font-size: .49rem; font-weight: 700; }
+  .site-footer__copy p { margin: 0 0 .6rem; font-size: .82rem; max-width: 52ch; }
+  .site-footer__legal { display: grid; gap: .4rem; font-size: .78rem; }
+  .site-footer__legal a { border-bottom: 1px solid transparent; }
+  .site-footer__legal a:hover { border-color: currentColor; }
+
+  .cookie-banner {
+    position: fixed; z-index: 40; inset: auto 1rem 1rem; max-width: 420px;
+    background: var(--paper); color: var(--ink); border: 1px solid var(--mahogany);
+    border-radius: 10px; padding: 1rem 1.1rem; box-shadow: 0 12px 40px rgba(33,19,14,.28);
+    font-size: .86rem;
+  }
+  .cookie-banner div { display: flex; gap: .6rem; margin-top: .8rem; }
+  .button { font-weight: 800; border-radius: 6px; padding: .5rem .9rem; cursor: pointer; }
+  .button--ink { background: var(--mahogany); color: var(--rice); border: 1px solid var(--mahogany); }
+  .button--line { background: transparent; color: var(--mahogany); border: 1px solid var(--mahogany); }
+
+  @media (max-width: 720px) {
+    .site-footer { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,0 +1,59 @@
+---
+// Ridge Market Ledger: programmatic long-tail subpages for Mahogany Beef Market & Bulalohan.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SubpageLayout from "../layouts/SubpageLayout.astro";
+import { TOPICS, type TopicContent } from "../data/topics";
+import { placeName } from "../content";
+
+export async function getStaticPaths() {
+  return Object.values(TOPICS).map((topic) => ({
+    params: { topic: topic.slug },
+    props: { topic },
+  }));
+}
+
+const { topic } = Astro.props as { topic: TopicContent };
+const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
+const homeUrl = Astro.site ? new URL("/", Astro.site).toString() : "/";
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Tahanan", item: homeUrl },
+    { "@type": "ListItem", position: 2, name: "Gabay sa Mahogany Market", item: homeUrl },
+    { "@type": "ListItem", position: 3, name: topic.h1, item: canonicalUrl },
+  ],
+};
+
+const webPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: topic.title,
+  description: topic.description,
+  ...(canonicalUrl ? { url: canonicalUrl } : {}),
+  ...(canonicalUrl ? { "@id": `${canonicalUrl}#webpage` } : {}),
+  about: { "@type": "TouristAttraction", name: placeName },
+  isPartOf: { "@type": "WebSite", name: "Gabay sa Mahogany Market" },
+};
+
+const faqSchema =
+  topic.faq.length > 0
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: topic.faq.map((item) => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: { "@type": "Answer", text: item.answer },
+        })),
+      }
+    : null;
+---
+
+<BaseLayout title={topic.title} description={topic.description}>
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(breadcrumbSchema)} />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(webPageSchema)} />
+  {faqSchema && <script type="application/ld+json" is:inline set:html={JSON.stringify(faqSchema)} />}
+  <SubpageLayout topic={topic} />
+</BaseLayout>
